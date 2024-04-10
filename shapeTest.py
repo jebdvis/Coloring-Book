@@ -63,6 +63,7 @@ class Game(object):
             if event.type == pygame.QUIT:
                 return True
             if event.type == pygame.MOUSEBUTTONDOWN:
+                #if self.shape.collidepoint(event.pos):
                 self.updateColor()
         return False
     
