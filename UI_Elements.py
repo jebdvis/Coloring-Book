@@ -7,9 +7,7 @@ pygame.init()
 win = pygame.display.set_mode((1000, 600))
 
 slider = Slider(win, 900, 200, 40, 300, min=0, max=255, step=1, vertical=True)
-output = TextBox(win, 475, 200, 50, 50, fontSize=30)
 
-output.disable()  # Act as label instead of textbox
 
 run = True
 while run:
@@ -22,7 +20,6 @@ while run:
 
     win.fill((255, 255, 255))
 
-    output.setText(slider.getValue())
 
     pygame_widgets.update(events)
     pygame.display.update()
