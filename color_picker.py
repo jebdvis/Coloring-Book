@@ -6,7 +6,7 @@ import colorsys
 from pygame_widgets.slider import Slider
 from pygame_widgets.textbox import TextBox
 
-def hsb_to_rgb(hue, saturation, brightness):
+def hsv_to_rgb(hue, saturation, brightness):
     # Convert hue from degrees to a fraction between 0 and 1
     hue_fraction = hue / 360.0
     
@@ -42,7 +42,7 @@ while run:
             run = False
             quit()
 
-    win.fill(hsb_to_rgb(hue.getValue(),satur.getValue(),bright.getValue()))
+    win.fill(hsv_to_rgb(hue.getValue(),satur.getValue(),bright.getValue()))
 
 
     pygame_widgets.update(events)
