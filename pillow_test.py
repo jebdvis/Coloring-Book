@@ -40,9 +40,9 @@ def convert_to_BW(filename):
     edges = gray_img.filter(ImageFilter.FIND_EDGES)
     #edges.show()
     inverted_image = PIL.ImageOps.invert(edges)
-    inverted_image.save('test-images/convertedimage.png')
-    inverted_image.show()
-
+    inverted_image.save('convertedimage.png')
+    
+    #inverted_image.show()
 
     #converts input images into black and white to be traced
 
@@ -55,7 +55,7 @@ def convert_to_BW(filename):
 pygame.init() 
   
 # Set dimensions of game GUI 
-convert_to_BW('test-images/pikachu.png')
+convert_to_BW('pikachu.png')
 
 info = pygame.display.Info()
 w = info.current_w
@@ -67,11 +67,13 @@ hue = Slider(screen, 500, 200, 40, 300, min=0, max=360, step=1, vertical=True)
 satur = Slider(screen, 700, 200, 40, 300, min=0, max=100.0, step=1, vertical=True)
 bright = Slider(screen, 900, 200, 40, 300, min=0, max=100.0, step=1, vertical=True)
 
-input_image = Image.open("test-images/convertedimage.png")
+input_image = Image.open("convertedimage.png")
 image_width, image_height = input_image.size
 
+input_image = input_image.convert("RGB")
+
 # Convert the Pillow image to Pygame surface
-py_img = pygame.image.fromstring(input_image.tobytes(), input_image.size, input_image.mode)
+py_img = pygame.image.frombytes(input_image.tobytes(), input_image.size, input_image.mode)
 py_img = pygame.transform.scale(py_img, (w-500, h))
   
 # Set value of running variable 
