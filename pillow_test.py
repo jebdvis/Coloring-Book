@@ -1,4 +1,6 @@
-from PIL import Image, ImageDraw
+from PIL import Image, ImageDraw, ImageFilter, ImageOps
+import PIL
+import PIL.ImageOps
 import pygame 
 from pygame.locals import *
 import numpy as np
@@ -30,6 +32,22 @@ def hsv_to_rgb(hue, saturation, brightness):
     
     return (r, g, b)
 
+def convert_to_BW(filename):
+    with Image.open(filename) as img:
+        img.load()
+    cmyk_img = img.convert("CMYK")
+    gray_img = img.convert("L")  # Grayscale
+    edges = gray_img.filter(ImageFilter.FIND_EDGES)
+    #edges.show()
+    inverted_image = PIL.ImageOps.invert(edges)
+    inverted_image.save('test-images/convertedimage.png')
+    inverted_image.show()
+
+
+    #converts input images into black and white to be traced
+
+
+
 # Take colors input 
 
   
@@ -37,6 +55,7 @@ def hsv_to_rgb(hue, saturation, brightness):
 pygame.init() 
   
 # Set dimensions of game GUI 
+convert_to_BW('test-images/dragon-37.png')
 
 info = pygame.display.Info()
 w = info.current_w
