@@ -1,5 +1,8 @@
 import pygame
+from pygame.locals import *
 from shapeClass import Shape # Shape class import
+
+pygame.init()
 
 # Basic Colors
 BLACK   = (  0,  0,  0)
@@ -8,11 +11,20 @@ GREEN   = (  0,255,  0)
 RED     = (255,  0,  0)
 BLUE    = (  0,  0,255)
 
-# Dimensions/display of screen
+'''
+# Dimensions/display of screen [OLD]
 size = (400,500)
 WIDTH = 500
 HEIGHT = 400
 screen = pygame.display.set_mode(size)
+screen.fill(WHITE)
+'''
+# Dimensions/display of screen
+info = pygame.display.Info()
+w = info.current_w
+h = info.current_h
+
+screen = pygame.display.set_mode((w, h-55))
 screen.fill(WHITE)
 
 # Loop Switch
