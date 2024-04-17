@@ -43,7 +43,6 @@ def convert_to_BW(filename):
     #edges.show()
     inverted_image = PIL.ImageOps.invert(edges)
     inverted_image.save('test-images/convertedimage.png')
-    
     #inverted_image.show()
 
     #converts input images into black and white to be traced
@@ -58,8 +57,6 @@ def upscale(filename):
     cv2.imwrite('upscaled_test.png', result)
 
     
-
-
 
 
 # Take colors input 
