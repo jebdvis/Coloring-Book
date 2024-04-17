@@ -69,8 +69,9 @@ def upscale(filename):
 pygame.init() 
   
 # Set dimensions of game GUI 
-convert_to_BW('test-images/pikachu.png')
+
 upscale('test-images/pikachu.png')
+convert_to_BW('upscaled_test.png')
 
 info = pygame.display.Info()
 w = info.current_w
@@ -82,7 +83,7 @@ hue = Slider(screen, 500, 200, 40, 300, min=0, max=360, step=1, vertical=True)
 satur = Slider(screen, 700, 200, 40, 300, min=0, max=100.0, step=1, vertical=True)
 bright = Slider(screen, 900, 200, 40, 300, min=0, max=100.0, step=1, vertical=True)
 
-input_image = Image.open("convertedimage.png")
+input_image = Image.open("upscaled_test.png")
 image_width, image_height = input_image.size
 
 input_image = input_image.convert("RGB")
