@@ -39,12 +39,17 @@ def convert_to_BW(filename):
         img.load()
     cmyk_img = img.convert("CMYK")
     gray_img = img.convert("L")  # Grayscale
-    edges = gray_img.filter(ImageFilter.FIND_EDGES)
+    gray_img.save('test-images/gray_image.png')
+    convert_img = cv2.imread('test-images/gray_image.png')
+    new_image = cv2.convertScaleAbs(convert_img, alpha=5, beta=0)
+    cv2.imwrite('gray_contrast_img.png', new_image)
+    #with Image.open('gray_contrast_img.png') as img:
+    #    img.load()
+    #edges = img.filter(ImageFilter.FIND_EDGES)
     #edges.show()
-    inverted_image = PIL.ImageOps.invert(edges)
-    filter = ImageEnhance.Contrast(inverted_image)
-    #new_image = cv2.addWeighted(inverted_image, 2.3, np.zeros(inverted_image.shape, inverted_image.dtype), 0, 10) 
-    #new_image.save('test-images/convertedimage.png')
+    #edges = PIL.ImageOps.invert(edges)
+    #edges.save('test-images/edges.png')
+    
     #inverted_image.show()
 
     #converts input images into black and white to be traced
@@ -69,7 +74,7 @@ pygame.init()
   
 # Set dimensions of game GUI 
 
-upscale('test-images/pikachu2.png')
+#upscale('test-images/pikachu.png')
 convert_to_BW('upscaled_test.png')
 
 info = pygame.display.Info()
@@ -82,7 +87,7 @@ hue = Slider(screen, 500, 200, 40, 300, min=0, max=360, step=1, vertical=True)
 satur = Slider(screen, 700, 200, 40, 300, min=0, max=100.0, step=1, vertical=True)
 bright = Slider(screen, 900, 200, 40, 300, min=0, max=100.0, step=1, vertical=True)
 
-input_image = Image.open("test-images/convertedimage.png")
+input_image = Image.open("gray_contrast_img.png")
 image_width, image_height = input_image.size
 
 input_image = input_image.convert("RGB")
