@@ -1,4 +1,4 @@
-from PIL import Image, ImageDraw, ImageFilter, ImageOps
+from PIL import Image, ImageDraw, ImageFilter, ImageOps, ImageEnhance
 import PIL
 import cv2
 import PIL.ImageOps
