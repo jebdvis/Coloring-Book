@@ -42,7 +42,9 @@ def convert_to_BW(filename):
     edges = gray_img.filter(ImageFilter.FIND_EDGES)
     #edges.show()
     inverted_image = PIL.ImageOps.invert(edges)
-    inverted_image.save('test-images/convertedimage.png')
+    filter = ImageEnhance.Contrast(inverted_image)
+    #new_image = cv2.addWeighted(inverted_image, 2.3, np.zeros(inverted_image.shape, inverted_image.dtype), 0, 10) 
+    #new_image.save('test-images/convertedimage.png')
     #inverted_image.show()
 
     #converts input images into black and white to be traced
