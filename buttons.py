@@ -20,9 +20,13 @@ save_icon = pygame.image.load("save_icon.png")
 save_size = (30,30)
 save_icon = pygame.transform.scale(save_icon,save_size)
 
+home_icon = pygame.image.load("home_icon.png")
+home_size = (30,30)
+home_icon = pygame.transform.scale(home_icon,home_size)
+
 button1 = Button(screen,100,100,60,60,inactiveColour=(150, 150, 150),hoverColour=(125, 125, 125),pressedColour=(60, 60, 60),radius=20,onClick=lambda: print('Click'),image = undo_icon,)
 button2 = Button(screen,200,100,60,60,inactiveColour=(150, 150, 150),hoverColour=(125, 125, 125),pressedColour=(60, 60, 60),radius=20,onClick=lambda: print('Click'),image = save_icon,)
-butto3 = Button(screen,300,100,60,60,inactiveColour=(150, 150, 150),hoverColour=(125, 125, 125),pressedColour=(60, 60, 60),radius=20,onClick=lambda: print('Click'),image = save_icon,)
+button3 = Button(screen,300,100,60,60,inactiveColour=(150, 150, 150),hoverColour=(125, 125, 125),pressedColour=(60, 60, 60),radius=20,onClick=lambda: print('Click'),image = home_icon,)
 
 
 while True:
