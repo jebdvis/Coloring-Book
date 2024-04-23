@@ -36,10 +36,13 @@ def hsv_to_rgb(hue, saturation, brightness):
 
 def convert_to_BW(filename):
     #opens image of given filename
-    with Image.open(filename) as img:
-        img.load()
-    #converts the image to cmyk... this helps the grayscale conversion
-    cmyk_img = img.convert("CMYK")
+    img = Image.open(filename)
+    #background = Image.new('RGBA', png.size, (255,255,255))
+    #alpha_composite = Image.alpha_composite(background, png)
+    #alpha_composite.save('test-images/removed_background.png', 'PNG', quality=80)
+    #img = Image.open('test-images/removed_background.png')
+    #rgb_img = img.convert("RGB")
+    #cmyk_img = rgb_img.convert("CMYK")
     #converts image to grayscale, this will allow for the black lines to be isolated
     gray_img = img.convert("L")  # Grayscale
     #saves image so that it can be readin as a numpy file for openCV contrast conversion
@@ -63,6 +66,23 @@ def convert_to_BW(filename):
 
     #converts input images into black and white to be traced
 
+def remove_transparency(filename, bg_colour=(255, 255, 255)):
+
+    # Only process if image has transparency (http://stackoverflow.com/a/1963146)
+        im = Image.open(filename)
+        # Need to convert to RGBA if LA format due to a bug in PIL (http://stackoverflow.com/a/1963146)
+        alpha = im.convert('RGBA').split()[-1]
+
+        # Create a new background image of our matt color.
+        # Must be RGBA because paste requires both images have the same format
+        # (http://stackoverflow.com/a/8720632  and  http://stackoverflow.com/a/9459208)
+        bg = Image.new("RGBA", im.size, bg_colour + (255,))
+        bg.paste(im, mask=alpha)
+        bg.show()
+        bg.save('test-images/removed_background.png')
+        
+
+    
 def upscale(filename):
     #reads in image
     img = cv2.imread(filename)
@@ -75,7 +95,7 @@ def upscale(filename):
     #upscale the image
     result = sr.upsample(img)
     #save the image
-    cv2.imwrite('upscaled_test.png', result)
+    cv2.imwrite('test-images/upscaled_test.png', result)
 
     
 
@@ -87,9 +107,9 @@ def upscale(filename):
 pygame.init() 
   
 # Set dimensions of game GUI 
-
-#upscale('test-images/pikachu.png')
-convert_to_BW('upscaled_test.png')
+remove_transparency('test-images/dragon-37.png')
+upscale('test-images/removed_background.png')
+convert_to_BW('test-images/upscaled_test.png')
 
 info = pygame.display.Info()
 w = info.current_w
