@@ -35,14 +35,23 @@ def hsv_to_rgb(hue, saturation, brightness):
     return (r, g, b)
 
 def convert_to_BW(filename):
+    #opens image of given filename
     with Image.open(filename) as img:
         img.load()
+    #converts the image to cmyk... this helps the grayscale conversion
     cmyk_img = img.convert("CMYK")
+    #converts image to grayscale, this will allow for the black lines to be isolated
     gray_img = img.convert("L")  # Grayscale
+    #saves image so that it can be readin as a numpy file for openCV contrast conversion
     gray_img.save('test-images/gray_image.png')
+    #reads in saved image
     convert_img = cv2.imread('test-images/gray_image.png')
+    #uses openCV to change image contrast, allowing black lines to be isolated and therefore make a good coloring book.
     new_image = cv2.convertScaleAbs(convert_img, alpha=5, beta=0)
+    #save image to be used in pygame
     cv2.imwrite('gray_contrast_img.png', new_image)
+
+    #deprecated code
     #with Image.open('gray_contrast_img.png') as img:
     #    img.load()
     #edges = img.filter(ImageFilter.FIND_EDGES)
@@ -55,12 +64,17 @@ def convert_to_BW(filename):
     #converts input images into black and white to be traced
 
 def upscale(filename):
+    #reads in image
     img = cv2.imread(filename)
+    #creates new upscale model
     sr = cv2.dnn_superres.DnnSuperResImpl_create()
+    #references ESDR_x4 upscaling model
     path = "EDSR_x4.pb"
     sr.readModel(path)
     sr.setModel("edsr",4)
+    #upscale the image
     result = sr.upsample(img)
+    #save the image
     cv2.imwrite('upscaled_test.png', result)
 
     
