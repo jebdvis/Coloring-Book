@@ -4,16 +4,41 @@ import pygame_widgets
 from pygame_widgets.button import Button
 from pygame_widgets.slider import Slider
 import colorsys
-from pygame.locals import *
 
-SCREENWIDTH, SCREENHEIGHT = 1280, 720
+pygame.init()
+
+#grabs info of display ot use for window size
+info = pygame.display.Info()
+w = info.current_w
+h = info.current_h
+
+screen = pygame.display.set_mode((w, h-55))
 FPS = 60
 
 class Game:
     def __init__(self):
-        pygame.init()
-        self.screen = pygame.display.set_mode((SCREENWIDTH, SCREENHEIGHT))
+        
+        self.screen = pygame.display.set_mode((w, h))
         self.clock = pygame.time.Clock()
+        
+        self.startBTN = Button(
+        # Mandatory Parameters
+        self.screen,  # Surface to place button on
+        100,  # X-coordinate of top left corner
+        100,  # Y-coordinate of top left corner
+        300,  # Width
+        150,  # Height
+
+        # Optional Parameters
+        text='Start',  # Text to display
+        fontSize=50,  # Size of font
+        margin=20,  # Minimum distance between text/image and edge of button
+        inactiveColour=(200, 50, 0),  # Colour of button when not being interacted with
+        hoverColour=(150, 0, 0),  # Colour of button when being hovered over
+        pressedColour=(0, 200, 20),  # Colour of button when being clicked
+        radius=20,  # Radius of border corners (leave empty for not curved)
+        onClick=lambda: self.gameStateManager.set_state('level')  # Function to call when clicked on
+    )
         
         self.gameStateManager = GameStateManager('start')
         self.start = Start(self.screen, self.gameStateManager)
@@ -31,7 +56,9 @@ class Game:
                     
             self.states[self.gameStateManager.get_state()].run()
                     
+            pygame_widgets.update(pygame.event.get())
             pygame.display.update()
+              # Call once every loop to allow widgets to render and listen
             self.clock.tick(FPS)
             
 class Level:
