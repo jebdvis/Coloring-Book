@@ -34,15 +34,11 @@ def hsv_to_rgb(hue, saturation, brightness):
     
     return (r, g, b)
 
+#functions are good and work
+
 def convert_to_BW(filename):
     #opens image of given filename
     img = Image.open(filename)
-    #background = Image.new('RGBA', png.size, (255,255,255))
-    #alpha_composite = Image.alpha_composite(background, png)
-    #alpha_composite.save('test-images/removed_background.png', 'PNG', quality=80)
-    #img = Image.open('test-images/removed_background.png')
-    #rgb_img = img.convert("RGB")
-    #cmyk_img = rgb_img.convert("CMYK")
     #converts image to grayscale, this will allow for the black lines to be isolated
     gray_img = img.convert("L")  # Grayscale
     #saves image so that it can be readin as a numpy file for openCV contrast conversion
@@ -54,34 +50,23 @@ def convert_to_BW(filename):
     #save image to be used in pygame
     cv2.imwrite('gray_contrast_img.png', new_image)
 
-    #deprecated code
-    #with Image.open('gray_contrast_img.png') as img:
-    #    img.load()
-    #edges = img.filter(ImageFilter.FIND_EDGES)
-    #edges.show()
-    #edges = PIL.ImageOps.invert(edges)
-    #edges.save('test-images/edges.png')
-    
-    #inverted_image.show()
-
-    #converts input images into black and white to be traced
-
 def remove_transparency(filename, bg_colour=(255, 255, 255)):
-
+    #source https://stackoverflow.com/questions/35859140/remove-transparency-alpha-from-any-image-using-pil
     # Only process if image has transparency (http://stackoverflow.com/a/1963146)
         im = Image.open(filename)
         # Need to convert to RGBA if LA format due to a bug in PIL (http://stackoverflow.com/a/1963146)
-        alpha = im.convert('RGBA').split()[-1]
+        if im.mode in ('RGBA', 'LA') or (im.mode == 'P' and 'transparency' in im.info):
+            alpha = im.convert('RGBA').split()[-1]
 
-        # Create a new background image of our matt color.
-        # Must be RGBA because paste requires both images have the same format
-        # (http://stackoverflow.com/a/8720632  and  http://stackoverflow.com/a/9459208)
-        bg = Image.new("RGBA", im.size, bg_colour + (255,))
-        bg.paste(im, mask=alpha)
-        bg.show()
-        bg.save('test-images/removed_background.png')
-        
-
+            # Create a new background image of our matt color.
+            # Must be RGBA because paste requires both images have the same format
+            # (http://stackoverflow.com/a/8720632  and  http://stackoverflow.com/a/9459208)
+            bg = Image.new("RGBA", im.size, bg_colour + (255,))
+            bg.paste(im, mask=alpha)
+            bg.show()
+            bg.save('test-images/removed_background.png')
+        else:
+            im.save('test-images/removed_background.png')
     
 def upscale(filename):
     #reads in image
@@ -107,7 +92,7 @@ def upscale(filename):
 pygame.init() 
   
 # Set dimensions of game GUI 
-remove_transparency('test-images/dragon-37.png')
+remove_transparency('test-images/pikachu2.png')
 upscale('test-images/removed_background.png')
 convert_to_BW('test-images/upscaled_test.png')
 
