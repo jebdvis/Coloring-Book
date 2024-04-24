@@ -4,6 +4,20 @@ import pygame_widgets
 from pygame_widgets.button import Button
 from pygame_widgets.slider import Slider
 import colorsys
+from PIL import Image, ImageDraw, ImageFilter, ImageOps
+import PIL
+import PIL.ImageOps
+import numpy as np
+
+def pygame_flood_fill(surface, xy, new_color, threshh):
+    py_to_img = Image.frombytes("RGB", surface.get_size(), pygame.image.tostring(surface, "RGB"))
+
+    # Perform flood fill
+    ImageDraw.floodfill(py_to_img, xy=xy, value=new_color, thresh=threshh)
+
+    # Convert the Pillow image back to Pygame surface
+    updated_surface = pygame.image.fromstring(py_to_img.tobytes(), py_to_img.size, py_to_img.mode)
+    return updated_surface
 
 def hsv_to_rgb(hue, saturation, brightness):
     # Convert hue from degrees to a fraction between 0 and 1
@@ -28,50 +42,78 @@ def gradientRect(window, top_color, bot_color, target_rect):
 
 pygame.init()
 
-#Sets Font for labels
-myfont = pygame.font.SysFont("monospace", 18)
+class ColorPage:
 
-#Creates Labels to be drawn
-hue_label = myfont.render("HUE", 1, (255,255,255))
-satur_label = myfont.render("SAT", 1, (255,255,255))
-bright_label = myfont.render("BRT", 1, (255,255,255))
+    def __init__(self, display, gameStateManager):
+        self.loaded_img = None
 
-#grabs info of display ot use for window size
-info = pygame.display.Info()
-w = info.current_w
-h = info.current_h
+        self.display = display
+        self.gameStateManager = gameStateManager
 
-screen = pygame.display.set_mode((w, h-55))
+        self.myfont = pygame.font.SysFont("monospace", 18)
 
-#Black UI Surface
-ui_surf = pygame.Surface((w/7, h))
+        self.hue_label = self.myfont.render("HUE", 1, (255,255,255))
+        self.satur_label = self.myfont.render("SAT", 1, (255,255,255))
+        self.bright_label = self.myfont.render("BRT", 1, (255,255,255))
 
-#Color Sample Box
-color_samp = pygame.Surface((50,50))
+        self.ui_surf = pygame.Surface((self.display.get_width()/7, self.display.get_height()))
 
-#initializes icons for UI
-undo_icon = pygame.image.load("undo_icon.png")
-undo_size = (30, 30)
-undo_icon = pygame.transform.scale(undo_icon, undo_size)
+        #Color Sample Box
+        self.color_samp = pygame.Surface((50,50))
 
-save_icon = pygame.image.load("save_icon.png")
-save_size = (30,30)
-save_icon = pygame.transform.scale(save_icon,save_size)
+        #initializes icons for UI
+        self.undo_icon = pygame.image.load("undo_icon.png")
+        self.undo_size = (30, 30)
+        self.undo_icon = pygame.transform.scale(self.undo_icon, self.undo_size)
 
-home_icon = pygame.image.load("home_icon.png")
-home_size = (30,30)
-home_icon = pygame.transform.scale(home_icon,home_size)
+        self.save_icon = pygame.image.load("save_icon.png")
+        self.save_size = (30,30)
+        self.save_icon = pygame.transform.scale(self.save_icon,self.save_size)
 
-#Creates buttons on UI using loaded icons
-button1 = Button(screen,(51/56)*w,250,60,60,inactiveColour=(150, 150, 150),hoverColour=(125, 125, 125),pressedColour=(60, 60, 60),radius=20,onClick=lambda: print('Click'),image = undo_icon,)
-button2 = Button(screen,(51/56)*w,150,60,60,inactiveColour=(150, 150, 150),hoverColour=(125, 125, 125),pressedColour=(60, 60, 60),radius=20,onClick=lambda: print('Click'),image = save_icon,)
-button3 = Button(screen,(51/56)*w,50,60,60,inactiveColour=(150, 150, 150),hoverColour=(125, 125, 125),pressedColour=(60, 60, 60),radius=20,onClick=lambda: print('Click'),image = home_icon,)
+        self.home_icon = pygame.image.load("home_icon.png")
+        self.home_size = (30,30)
+        self.home_icon = pygame.transform.scale(self.home_icon,self.home_size)
 
-#Creates sliders on UI to use for color selection
-hue = Slider(screen, int((98/112) * w), int((9/16) * h), 20, 300, min=0, max=360, step=1, vertical=True)
-satur = Slider(screen, int((103/112) * w), int((9/16) * h), 20, 300, min=0, max=100.0, step=1, vertical=True)
-bright = Slider(screen, int((108/112) * w), int((9/16) * h), 20, 300, min=0, max=100.0, step=1, vertical=True)
+        #Creates buttons on UI using loaded icons
+        self.button1 = Button(self.display,(51/56)*w,250,60,60,inactiveColour=(150, 150, 150),hoverColour=(125, 125, 125),pressedColour=(60, 60, 60),radius=20,onClick=lambda: print('Click'),image = undo_icon,)
+        self.button2 = Button(self.display,(51/56)*w,150,60,60,inactiveColour=(150, 150, 150),hoverColour=(125, 125, 125),pressedColour=(60, 60, 60),radius=20,onClick=lambda: print('Click'),image = save_icon,)
+        self.button3 = Button(self.display,(51/56)*w,50,60,60,inactiveColour=(150, 150, 150),hoverColour=(125, 125, 125),pressedColour=(60, 60, 60),radius=20,onClick=lambda: print('Click'),image = home_icon,)
 
+        #Creates sliders on UI to use for color selection
+        self.hue = Slider(self.display, int((98/112) * w), int((9/16) * h), 20, 300, min=0, max=360, step=1, vertical=True)
+        self.satur = Slider(self.display, int((103/112) * w), int((9/16) * h), 20, 300, min=0, max=100.0, step=1, vertical=True)
+        self.bright = Slider(self.display, int((108/112) * w), int((9/16) * h), 20, 300, min=0, max=100.0, step=1, vertical=True)
+
+    def run(self):
+        events = pygame.event.get()
+        for event in events:
+            if event.type == QUIT: 
+                running = False
+
+        #Fills white color for background, Black for UI surface, and the current chosen color for the color sample box
+        self.display.fill((255,255,255))
+        self.ui_surf.fill((0,0,0))
+        self.color_samp.fill(hsv_to_rgb(self.hue.getValue(), self.satur.getValue(), self.bright.getValue()))
+
+        #draws UI surface and color sample box
+        self.display.blit(self.ui_surf, ((6/7)*w,0))
+        screen.blit(color_samp, ((51/56) * w, (6/16) * h))
+
+        #Draws labels for the color picker sliders
+        screen.blit(hue_label, (int((98/112) * w), int((17/32) * h)))
+        screen.blit(satur_label, (int((103/112) * w), int((17/32) * h)))
+        screen.blit(bright_label, (int((109/112) * w), int((17/32) * h)))
+
+        #saturation and brightness gradients
+        #gradientRect( window, (0, 255, 0), (0, 100, 0), pygame.Rect( 100,100, 100, 50 ) )
+        gradientRect(screen, hsv_to_rgb(hue.getValue(), 100, 100), (255,255,255), pygame.Rect(int((105/112) * w), int((9/16)*h),10,300))
+        gradientRect(screen, (255, 255, 255), (0,0,0), pygame.Rect(int((110/112) * w), int((9/16)*h),10,300))
+
+        pygame_widgets.update(events)  # Call once every loop to allow widgets to render and listen
+        pygame.display.update()
+
+    def set_loaded_img(set, loaded_img):
+        self.loaded_img = loaded_img
 
 running = True
 
