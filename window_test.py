@@ -2,6 +2,7 @@ import pygame
 from pygame.locals import *
 pygame.init()
 
+#grabs info of display ot use for window size
 info = pygame.display.Info()
 w = info.current_w
 h = info.current_h
