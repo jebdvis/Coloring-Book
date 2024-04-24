@@ -18,31 +18,13 @@ FPS = 60
 class Game:
     def __init__(self):
         
-        self.screen = pygame.display.set_mode((w, h))
+        self.screen1 = pygame.display.set_mode((w, h))
+        self.screen2 = pygame.display.set_mode((w, h))
         self.clock = pygame.time.Clock()
         
-        self.startBTN = Button(
-        # Mandatory Parameters
-        self.screen,  # Surface to place button on
-        100,  # X-coordinate of top left corner
-        100,  # Y-coordinate of top left corner
-        300,  # Width
-        150,  # Height
-
-        # Optional Parameters
-        text='Start',  # Text to display
-        fontSize=50,  # Size of font
-        margin=20,  # Minimum distance between text/image and edge of button
-        inactiveColour=(200, 50, 0),  # Colour of button when not being interacted with
-        hoverColour=(150, 0, 0),  # Colour of button when being hovered over
-        pressedColour=(0, 200, 20),  # Colour of button when being clicked
-        radius=20,  # Radius of border corners (leave empty for not curved)
-        onClick=lambda: self.gameStateManager.set_state('level')  # Function to call when clicked on
-    )
-        
         self.gameStateManager = GameStateManager('start')
-        self.start = Start(self.screen, self.gameStateManager)
-        self.level = Level(self.screen, self.gameStateManager)
+        self.start = Start(self.screen1, self.gameStateManager)
+        self.level = Level(self.screen2, self.gameStateManager)
         self.states = {'start':self.start, 'level':self.level}
         
     def run(self):
@@ -71,8 +53,34 @@ class Level:
 class Start:
     def __init__(self, display, gameStateManager):
         self.display = display
+        self.gameStateManager = gameStateManager
+        self.startBTN = Button(
+        # Mandatory Parameters
+        self.display,  # Surface to place button on
+        100,  # X-coordinate of top left corner
+        100,  # Y-coordinate of top left corner
+        300,  # Width
+        150,  # Height
+
+        # Optional Parameters
+        text='Start',  # Text to display
+        fontSize=50,  # Size of font
+        margin=20,  # Minimum distance between text/image and edge of button
+        inactiveColour=(200, 50, 0),  # Colour of button when not being interacted with
+        hoverColour=(150, 0, 0),  # Colour of button when being hovered over
+        pressedColour=(0, 200, 20),  # Colour of button when being clicked
+        radius=20,  # Radius of border corners (leave empty for not curved)
+        onClick=lambda: self.hideButton()  # Function to call when clicked on
+    )
+        
+    def hideButton(self):
+        self.gameStateManager.set_state('level')
+        self.startBTN.hide()
+        
     def run(self):
         self.display.fill('blue')
+        self.testrect = pygame.draw.rect(self.display, 'green', pygame.Rect(30, 30, 60, 60))
+        #pygame.display.flip()
         
 class GameStateManager:
     def __init__(self, currentState):
