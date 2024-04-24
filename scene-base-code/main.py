@@ -5,7 +5,9 @@ from pygame_widgets.button import Button
 from pygame_widgets.slider import Slider
 import colorsys
 
-SCREENWIDTH, SCREENHEIGHT = 1280, 720
+info = pygame.display.Info()
+w = info.current_w
+h = info.current_h
 FPS = 60
 
 class Button:
@@ -46,7 +48,7 @@ class Button:
 class Game:
     def __init__(self):
         pygame.init()
-        self.screen = pygame.display.set_mode((SCREENWIDTH, SCREENHEIGHT))
+        self.screen = pygame.display.set_mode((w, h-55))
         self.clock = pygame.time.Clock()
         
         self.gameStateManager = GameStateManager('start')
