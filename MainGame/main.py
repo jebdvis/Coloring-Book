@@ -29,6 +29,7 @@ class Game:
         self.start = Start(self.screen, self.gameStateManager)
         
         self.states = {'start':self.start, 'draw':self.draw}
+
         
     def run(self):
         while True:
