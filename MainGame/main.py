@@ -28,6 +28,7 @@ class Game:
         #self.level = Level(self.screen2, self.gameStateManager)
         self.draw = ColorPage(self.screen, self.gameStateManager)
         self.states = {'start':self.start, 'draw':self.draw}
+
         
     def run(self):
         while True:
@@ -36,8 +37,9 @@ class Game:
                     pygame.quit()
                     sys.exit()
                 if event.type == pygame.KEYDOWN:
+
                     self.gameStateManager.set_state('draw')
-                    
+
             self.states[self.gameStateManager.get_state()].run()
                     
             pygame_widgets.update(pygame.event.get())

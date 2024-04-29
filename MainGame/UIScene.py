@@ -103,7 +103,7 @@ class ColorPage:
                         color = self.display.get_at((click_x, click_y))
                         # Check if the color is black or close to black
                         if (color[0] > 20 or color[1] > 20 or color[2] > 20) and click_x < (6/7)* self.display.get_width():
-                            self.py_img = pygame_flood_fill(self.py_img,(click_x,click_y),hsv_to_rgb(self.hue.getValue(),self.satur.getValue(),self.bright.getValue()),200)
+                            self.py_img = pygame_flood_fill(self.py_img,(click_x,click_y),hsv_to_rgb(self.hue.getValue(),self.satur.getValue(),self.bright.getValue()),30)
                             self.undo_stack.append([(click_x, click_y), (color[0],color[1],color[2])])
         
 
