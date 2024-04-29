@@ -83,7 +83,7 @@ class ColorPage:
 
         #Creates buttons on UI using loaded icons
         self.button1 = Button(self.display,(51/56)*self.display.get_width(),250,60,60,inactiveColour=(150, 150, 150),hoverColour=(125, 125, 125),pressedColour=(60, 60, 60),radius=20,onClick= self.undo_func, image = self.undo_icon,)
-        self.button2 = Button(self.display,(51/56)*self.display.get_width(),150,60,60,inactiveColour=(150, 150, 150),hoverColour=(125, 125, 125),pressedColour=(60, 60, 60),radius=20,onClick=lambda: print('Click'),image = self.save_icon,)
+        self.button2 = Button(self.display,(51/56)*self.display.get_width(),150,60,60,inactiveColour=(150, 150, 150),hoverColour=(125, 125, 125),pressedColour=(60, 60, 60),radius=20,onClick= self.save_page,image = self.save_icon,)
         self.button3 = Button(self.display,(51/56)*self.display.get_width(),50,60,60,inactiveColour=(150, 150, 150),hoverColour=(125, 125, 125),pressedColour=(60, 60, 60),radius=20,onClick=lambda: print('Click'),image = self.home_icon,)
 
         #Creates sliders on UI to use for color selection
@@ -126,7 +126,6 @@ class ColorPage:
             if event.type == QUIT: 
                 pygame.display.quit()
             elif event.type == pygame.MOUSEBUTTONDOWN:
-                print('CLICK')
             # Check if the mouse button clicked is the left button (button 1)
                 if event.button == 1:
                     # Get the coordinates of the mouse click
@@ -194,6 +193,12 @@ class ColorPage:
     #sets game state to home and hides buttons/sliders
     def set_gameState_home(self):
         lambda: print("hi!")
+
+
+    def save_page(self):
+        py_to_img = Image.frombytes("RGB", self.py_img.get_size(), pygame.image.tostring(self.py_img, "RGB"))
+        py_to_img.save(self.loaded_img)
+
 
 
 
