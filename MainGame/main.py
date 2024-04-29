@@ -4,6 +4,7 @@ import pygame_widgets
 from pygame_widgets.button import Button
 from pygame_widgets.slider import Slider
 import colorsys
+from UIScene import *
 
 pygame.init()
 
@@ -18,14 +19,15 @@ FPS = 60
 class Game:
     def __init__(self):
         
-        self.screen1 = pygame.display.set_mode((w, h))
-        self.screen2 = pygame.display.set_mode((w, h))
+        self.screen = pygame.display.set_mode((w, h))
+        #self.screen2 = pygame.display.set_mode((w, h))
         self.clock = pygame.time.Clock()
         
         self.gameStateManager = GameStateManager('start')
-        self.start = Start(self.screen1, self.gameStateManager)
-        self.level = Level(self.screen2, self.gameStateManager)
-        self.states = {'start':self.start, 'level':self.level}
+        self.start = Start(self.screen, self.gameStateManager)
+        #self.level = Level(self.screen2, self.gameStateManager)
+        self.draw = ColorPage(self.screen, self.gameStateManager)
+        self.states = {'start':self.start, 'draw':self.draw}
         
     def run(self):
         while True:
@@ -34,7 +36,7 @@ class Game:
                     pygame.quit()
                     sys.exit()
                 if event.type == pygame.KEYDOWN:
-                    self.gameStateManager.set_state('level')
+                    self.gameStateManager.set_state('draw')
                     
             self.states[self.gameStateManager.get_state()].run()
                     
@@ -42,14 +44,7 @@ class Game:
             pygame.display.update()
               # Call once every loop to allow widgets to render and listen
             self.clock.tick(FPS)
-            
-class Level:
-    def __init__(self, display, gameStateManager):
-        self.display = display
-        self.gameStateManager = gameStateManager
-    def run(self):
-        self.display.fill('red')
-        
+                     
 class Start:
     def __init__(self, display, gameStateManager):
         self.display = display
@@ -74,7 +69,7 @@ class Start:
     )
         
     def hideButton(self):
-        self.gameStateManager.set_state('level')
+        self.gameStateManager.set_state('draw')
         self.startBTN.hide()
         
     def run(self):
