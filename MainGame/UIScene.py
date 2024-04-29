@@ -46,6 +46,10 @@ def gradientRect(window, top_color, bot_color, target_rect):
 class ColorPage:
 
     def __init__(self, display, gameStateManager):
+        #self.set_loaded_img('Color_Pages/pikachu2.png')
+        
+        self.UI_loaded = False
+
         self.loaded_img = None
 
         self.undo_stack = []
@@ -87,12 +91,42 @@ class ColorPage:
         self.satur = Slider(self.display, int((103/112) * self.display.get_width()), int((9/16) * self.display.get_height()), 20, 300, min=0, max=100.0, step=1, vertical=True)
         self.bright = Slider(self.display, int((108/112) * self.display.get_width()), int((9/16) * self.display.get_height()), 20, 300, min=0, max=100.0, step=1, vertical=True)
 
+        self.hideUI()
+
+    def hideUI(self):
+        self.button1.hide()
+        self.button2.hide()
+        self.button3.hide()
+        self.hue.hide()
+        self.satur.hide()
+        self.bright.hide()
+        self.UI_loaded = False
+        print('not loaded')
+
+    def showUI(self):
+        self.set_loaded_img('Color_Pages/pikachu2.png')
+        self.load_img()
+        self.button1.show()
+        self.button2.show()
+        self.button3.show()
+        self.hue.show()
+        self.satur.show()
+        self.bright.show()
+        self.UI_loaded = True
+        print('loaded')
+        #print(self.UI_loaded)
+
     def run(self):
+        if self.UI_loaded == False:
+            self.showUI()
+            #print(self.UI_loaded)
+        #print('NEXT')
         events = pygame.event.get()
         for event in events:
             if event.type == QUIT: 
                 pygame.display.quit()
             elif event.type == pygame.MOUSEBUTTONDOWN:
+                print('CLICK')
             # Check if the mouse button clicked is the left button (button 1)
                 if event.button == 1:
                     # Get the coordinates of the mouse click

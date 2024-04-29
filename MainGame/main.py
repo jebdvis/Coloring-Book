@@ -24,19 +24,24 @@ class Game:
         self.clock = pygame.time.Clock()
         
         self.gameStateManager = GameStateManager('start')
-        self.start = Start(self.screen, self.gameStateManager)
-        #self.level = Level(self.screen2, self.gameStateManager)
+        
         self.draw = ColorPage(self.screen, self.gameStateManager)
+        self.start = Start(self.screen, self.gameStateManager)
+        
         self.states = {'start':self.start, 'draw':self.draw}
         
     def run(self):
         while True:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    sys.exit()
-                if event.type == pygame.KEYDOWN:
-                    self.gameStateManager.set_state('draw')
+            #for event in pygame.event.get():
+            #    if event.type == pygame.QUIT:
+            #        pygame.quit()
+            #        sys.exit()
+                #if event.type == pygame.KEYDOWN:
+                    #self.gameStateManager.set_state('draw')
+                    #if self.draw.Is_UI_loaded() == False:
+                        #self.draw.load_UI()
+                        #self.start.hideButton()
+
                     
             self.states[self.gameStateManager.get_state()].run()
                     
@@ -44,7 +49,7 @@ class Game:
             pygame.display.update()
               # Call once every loop to allow widgets to render and listen
             self.clock.tick(FPS)
-                     
+
 class Start:
     def __init__(self, display, gameStateManager):
         self.display = display
@@ -71,7 +76,9 @@ class Start:
     def hideButton(self):
         self.gameStateManager.set_state('draw')
         self.startBTN.hide()
-        
+        #if self.nextScene.Is_UI_loaded() == False:
+            #self.nextScene.load_UI()
+                    
     def run(self):
         self.display.fill('blue')
         self.testrect = pygame.draw.rect(self.display, 'green', pygame.Rect(30, 30, 60, 60))
