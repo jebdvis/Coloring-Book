@@ -8,6 +8,8 @@ import numpy as np
 import pygame_widgets
 from pygame_widgets.slider import Slider
 import colorsys
+import easygui
+import shutil
 
 def convert_to_BW(filename):
     #opens image of given filename
@@ -59,5 +61,23 @@ def convertImage(filename):
     upscale(filename)
     convert_to_BW(filename)
 
-    
+def choose_png_and_copy():
+#opens file explorer for user to choose file
+    source_file = easygui.fileopenbox(filetypes=["*.png"])
+    if source_file:
+    #puts a copy of the file in the coloring page folder
+        shutil.copy(source_file, 'Color_Pages')
 
+
+def load_and_convert():
+    #opens file explorer for user to choose file
+    source_file = easygui.fileopenbox(filetypes=["*.png"])
+    if source_file:
+        #puts a copy of the file in the coloring page folder
+        shutil.copy(source_file, 'Color_Pages')
+        file_path = source_file.split("\\")
+        convertImage("Color_Pages"+"\\" + file_path[-1])
+     
+
+if __name__ == "__main__":
+    load_and_convert()
