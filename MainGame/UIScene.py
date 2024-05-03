@@ -84,7 +84,7 @@ class ColorPage:
         #Creates buttons on UI using loaded icons
         self.button1 = Button(self.display,(51/56)*self.display.get_width(),250,60,60,inactiveColour=(150, 150, 150),hoverColour=(125, 125, 125),pressedColour=(60, 60, 60),radius=20,onClick= self.undo_func, image = self.undo_icon,)
         self.button2 = Button(self.display,(51/56)*self.display.get_width(),150,60,60,inactiveColour=(150, 150, 150),hoverColour=(125, 125, 125),pressedColour=(60, 60, 60),radius=20,onClick= self.save_page,image = self.save_icon,)
-        self.button3 = Button(self.display,(51/56)*self.display.get_width(),50,60,60,inactiveColour=(150, 150, 150),hoverColour=(125, 125, 125),pressedColour=(60, 60, 60),radius=20,onClick=lambda: print('Click'),image = self.home_icon,)
+        self.button3 = Button(self.display,(51/56)*self.display.get_width(),50,60,60,inactiveColour=(150, 150, 150),hoverColour=(125, 125, 125),pressedColour=(60, 60, 60),radius=20,onClick=lambda: self.goHome(),image = self.home_icon,)
 
         #Creates sliders on UI to use for color selection
         self.hue = Slider(self.display, int((98/112) * self.display.get_width()), int((9/16) * self.display.get_height()), 20, 300, min=0, max=360, step=1, vertical=True)
@@ -92,6 +92,10 @@ class ColorPage:
         self.bright = Slider(self.display, int((108/112) * self.display.get_width()), int((9/16) * self.display.get_height()), 20, 300, min=0, max=100.0, step=1, vertical=True)
 
         self.hideUI()
+
+    def goHome(self):
+        self.hideUI()
+        self.gameStateManager.set_state('start')
 
     def hideUI(self):
         self.button1.hide()
@@ -104,7 +108,7 @@ class ColorPage:
         print('not loaded')
 
     def showUI(self):
-        self.set_loaded_img('Color_Pages/pikachu2.png')
+        self.set_loaded_img('Color_Pages/clipart1071904.png')
         self.load_img()
         self.button1.show()
         self.button2.show()
