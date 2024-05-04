@@ -30,7 +30,7 @@ class Game:
         self.draw = ColorPage(self.screen, self.gameStateManager)
         self.start = Start(self.screen, self.gameStateManager)
         self.credits = Credits(self.screen, self.gameStateManager)
-        self.pickPage = PickPage(self.screen, self.gameStateManager)
+        self.pickPage = PickPage(self.screen, self.gameStateManager, self.draw)
         
         self.states = {'start':self.start, 'draw':self.draw, 'credits':self.credits, 'pickPage':self.pickPage}
 

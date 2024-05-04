@@ -107,8 +107,11 @@ class ColorPage:
         self.UI_loaded = False
         print('not loaded')
 
+    def setPage(self, page):
+        self.page = page
+
     def showUI(self):
-        self.set_loaded_img('Color_Pages/clipart1071904.png')
+        self.set_loaded_img(self.page)
         self.load_img()
         self.button1.show()
         self.button2.show()
