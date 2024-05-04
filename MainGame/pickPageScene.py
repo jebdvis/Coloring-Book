@@ -42,50 +42,49 @@ class PickPage:
         )
         self.backBTN.hide()
 
-        '''
-        self.testBTN1 = Button(
+        self.uploadBTN = Button(
         # Mandatory Parameters
         self.display,  # Surface to place button on
-        50,  # X-coordinate of top left corner
-        100,  # Y-coordinate of top left corner
-        300,  # Width
+        (self.w/2) - (150+500),  # X-coordinate of top left corner
+        (self.h-400),  # Y-coordinate of top left corner
+        500,  # Width
         100,  # Height
 
         # Optional Parameters
-        text='Test page',  # Text to display
+        text='Upload Custom Page',  # Text to display
         font=self.buttonFont,
         fontSize=50,  # Size of font
         margin=20,  # Minimum distance between text/image and edge of button
         inactiveColour=(200, 50, 0),  # Colour of button when not being interacted with
         hoverColour=(150, 0, 0),  # Colour of button when being hovered over
         pressedColour=(0, 200, 20),  # Colour of button when being clicked  # Radius of border corners (leave empty for not curved)
-        image=pygame.transform.scale(pygame.image.load('assets/paintborder.jpeg'), (300, 100)),
+        image=pygame.transform.scale(pygame.image.load('assets/paintborder.jpeg'), (500, 100)),
         radius=20,
-        onClick=lambda: self.page1()  # Function to call when clicked on
+        onClick=lambda: self.uploadCustomPage()  # Function to call when clicked on
         )
-        self.testBTN2 = Button(
+        self.uploadBTN.hide()
+
+        self.pickCustomBTN = Button(
         # Mandatory Parameters
         self.display,  # Surface to place button on
-        400,  # X-coordinate of top left corner
-        100,  # Y-coordinate of top left corner
-        300,  # Width
+        (self.w/2) + (300/2),  # X-coordinate of top left corner
+        (self.h-400),  # Y-coordinate of top left corner
+        500,  # Width
         100,  # Height
 
         # Optional Parameters
-        text='Test page',  # Text to display
+        text='Pick Custom Page',  # Text to display
         font=self.buttonFont,
         fontSize=50,  # Size of font
         margin=20,  # Minimum distance between text/image and edge of button
         inactiveColour=(200, 50, 0),  # Colour of button when not being interacted with
         hoverColour=(150, 0, 0),  # Colour of button when being hovered over
         pressedColour=(0, 200, 20),  # Colour of button when being clicked  # Radius of border corners (leave empty for not curved)
-        image=pygame.transform.scale(pygame.image.load('assets/paintborder.jpeg'), (300, 100)),
+        image=pygame.transform.scale(pygame.image.load('assets/paintborder.jpeg'), (500, 100)),
         radius=20,
-        onClick=lambda: self.page2()  # Function to call when clicked on
+        onClick=lambda: self.pickCustomPage()  # Function to call when clicked on
         )
-        self.testBTN1.hide()
-        self.testBTN2.hide()
-        '''
+        self.pickCustomBTN.hide()
 
     def hideButtonBack(self):
         self.gameStateManager.set_state('start')
@@ -93,12 +92,8 @@ class PickPage:
         #self.testBTN1.hide()
         #self.testBTN2.hide()
         self.pages.hide()
-
-    #def hideButtonDraw(self):
-    #    self.gameStateManager.set_state('draw')
-    #    self.page1()
-    #    self.backBTN.hide()
-    #    self.testBTN.hide()
+        self.pickCustomBTN.hide()
+        self.uploadBTN.hide()
 
     def createThumbnails(self):
         self.pages = ButtonArray(
@@ -116,33 +111,25 @@ class PickPage:
             onClicks=(lambda: self.loadPage('Color_Pages/catpumpkin.jpeg'), lambda: self.loadPage('Color_Pages/eevee.png'), lambda: self.loadPage('Color_Pages/flowers.jpeg'), lambda: self.loadPage('Color_Pages/frog.jpeg'), lambda: self.loadPage('Color_Pages/icecream.jpeg'), lambda: self.loadPage('Color_Pages/mandala.jpeg'), lambda: self.loadPage('Color_Pages/mudkip.png'), lambda: self.loadPage('Color_Pages/pikachu.png'), lambda: self.loadPage('Color_Pages/pumpkin.jpeg'), lambda: self.loadPage('Color_Pages/santa.jpeg'), lambda: self.loadPage('Color_Pages/toucan.jpeg'), lambda: self.loadPage('Color_Pages/triangles.jpeg'))
         )
 
-    '''
-    def page1(self):
-        self.drawingScene.setPage('Color_Pages/eevee.png')    
-        self.gameStateManager.set_state('draw')
-        self.backBTN.hide()
-        #self.testBTN1.hide()
-        #self.testBTN2.hide()
-    
-    def page2(self):
-        self.drawingScene.setPage('Color_Pages/frog.jpeg')    
-        self.gameStateManager.set_state('draw')
-        self.backBTN.hide()
-        #self.testBTN1.hide()
-        #self.testBTN2.hide()
-    '''
-
     def loadPage(self, page):
         self.drawingScene.setPage(page)    
         self.gameStateManager.set_state('draw')
         self.backBTN.hide()
+        self.pickCustomBTN.hide()
+        self.uploadBTN.hide()
         self.pages.hide()
+
+    #def uploadCustomPage(self):
+
+    #def pickCustomPage(self):
         
     def run(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
         self.backBTN.show()
+        self.pickCustomBTN.show()
+        self.uploadBTN.show()
         self.createThumbnails()
         self.pages.show()
         #self.testBTN1.show()
