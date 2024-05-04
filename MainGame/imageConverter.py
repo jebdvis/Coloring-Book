@@ -21,7 +21,11 @@ def convert_to_BW(filename):
     #reads in saved image
     convert_img = cv2.imread('test-images/gray_image.png')
     #uses openCV to change image contrast, allowing black lines to be isolated and therefore make a good coloring book.
+<<<<<<< HEAD
     new_image = cv2.convertScaleAbs(convert_img, alpha=2.3, beta=0)
+=======
+    new_image = cv2.convertScaleAbs(convert_img, alpha=2.25, beta=0)
+>>>>>>> 7d0c6a97c9a67e36850d9ef7d160ffc819af8e54
     #save image to be used in pygame
     cv2.imwrite(filename, new_image)
 
