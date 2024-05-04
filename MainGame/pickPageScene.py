@@ -7,6 +7,8 @@ from pygame_widgets.slider import Slider
 import colorsys
 from UIScene import *
 import gif_pygame
+from imageConverter import load_and_convert
+import easygui
 
 class PickPage:
     def __init__(self, display, gameStateManager, drawingScene):
@@ -19,6 +21,7 @@ class PickPage:
         self.gameStateManager = gameStateManager
         self.buttonFont = pygame.font.SysFont('comicsansms',50)
         self.drawingScene = drawingScene
+        self.loading_text = self.buttonFont.render('Refer to console for loading.', False, (0, 0, 0))
         
         self.backBTN = Button(
         # Mandatory Parameters
@@ -45,13 +48,13 @@ class PickPage:
         self.uploadBTN = Button(
         # Mandatory Parameters
         self.display,  # Surface to place button on
-        (self.w/2) - (150+500),  # X-coordinate of top left corner
-        (self.h-400),  # Y-coordinate of top left corner
-        500,  # Width
+        self.w * 1/8 ,  # X-coordinate of top left corner
+        (self.h-200),  # Y-coordinate of top left corner
+        200,  # Width
         100,  # Height
 
         # Optional Parameters
-        text='Upload Custom Page',  # Text to display
+        text='Upload Custom',  # Text to display
         font=self.buttonFont,
         fontSize=50,  # Size of font
         margin=20,  # Minimum distance between text/image and edge of button
@@ -60,20 +63,20 @@ class PickPage:
         pressedColour=(0, 200, 20),  # Colour of button when being clicked  # Radius of border corners (leave empty for not curved)
         image=pygame.transform.scale(pygame.image.load('assets/paintborder.jpeg'), (500, 100)),
         radius=20,
-        onClick=lambda: self.uploadCustomPage()  # Function to call when clicked on
+        onClick=lambda: self.loadCustomPage()  # Function to call when clicked on
         )
         self.uploadBTN.hide()
 
         self.pickCustomBTN = Button(
         # Mandatory Parameters
         self.display,  # Surface to place button on
-        (self.w/2) + (300/2),  # X-coordinate of top left corner
-        (self.h-400),  # Y-coordinate of top left corner
-        500,  # Width
+        (self.w * 3/4),  # X-coordinate of top left corner
+        (self.h-200),  # Y-coordinate of top left corner
+        200,  # Width
         100,  # Height
 
         # Optional Parameters
-        text='Pick Custom Page',  # Text to display
+        text='Pick Custom',  # Text to display
         font=self.buttonFont,
         fontSize=50,  # Size of font
         margin=20,  # Minimum distance between text/image and edge of button
@@ -119,9 +122,13 @@ class PickPage:
         self.uploadBTN.hide()
         self.pages.hide()
 
-    #def uploadCustomPage(self):
+    def loadCustomPage(self):
+        load_and_convert()
 
-    #def pickCustomPage(self):
+
+    def pickCustomPage(self):
+        source_file = easygui.fileopenbox(default = "Custom_Pages/*.*")
+        self.loadPage(source_file)
         
     def run(self):
         for event in pygame.event.get():
@@ -136,3 +143,4 @@ class PickPage:
         #self.testBTN2.show()
         self.display.blit(self.background, (0, 0))
         self.choose.render(self.display, ((self.w/2) - (self.choose.get_width()/2), 25))
+        self.display.blit(self.loading_text,(0,self.h * 28/32))

@@ -11,6 +11,7 @@ screen = pygame.display.set_mode((w, h-55))
 
 
 
+
 while True:
     for event in pygame.event.get():
         if event.type == QUIT: 
