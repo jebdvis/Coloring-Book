@@ -17,9 +17,9 @@ def convert_to_BW(filename):
     #converts image to grayscale, this will allow for the black lines to be isolated
     gray_img = img.convert("L")  # Grayscale
     #saves image so that it can be readin as a numpy file for openCV contrast conversion
-    gray_img.save('test-images/gray_image.png')
+    gray_img.save('Custom_Pages/gray_image.png')
     #reads in saved image
-    convert_img = cv2.imread('test-images/gray_image.png')
+    convert_img = cv2.imread('Custom_Pages/gray_image.png')
     #uses openCV to change image contrast, allowing black lines to be isolated and therefore make a good coloring book.
     new_image = cv2.convertScaleAbs(convert_img, alpha=2.25, beta=0)
     #save image to be used in pygame
