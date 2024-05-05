@@ -128,7 +128,7 @@ class PickPage:
 
     def pickCustomPage(self):
         source_file = easygui.fileopenbox(default = "Custom_Pages/*.*")
-        if source_file == True:
+        if source_file:
             self.loadPage(source_file)
         
     def run(self):
