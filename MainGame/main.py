@@ -52,6 +52,7 @@ class Start:
         self.display = display
         self.gameStateManager = gameStateManager
         self.buttonFont = pygame.font.SysFont('comicsansms',50)
+        self.buttonFontSmall = pygame.font.SysFont('comicsansms',25)
         
         self.startBTN = Button(
         # Mandatory Parameters
@@ -148,6 +149,7 @@ class Credits:
         self.display = display
         self.gameStateManager = gameStateManager
         self.buttonFont = pygame.font.SysFont('comicsansms',50)
+        self.buttonFontSmall = pygame.font.SysFont('comicsansms',25)
         
         self.backBTN = Button(
         # Mandatory Parameters
@@ -156,7 +158,6 @@ class Credits:
         (h-250),  # Y-coordinate of top left corner
         300,  # Width
         100,  # Height
-
         # Optional Parameters
         text='Back',  # Text to display
         font=self.buttonFont,
@@ -171,15 +172,139 @@ class Credits:
         )
         self.backBTN.hide()
 
+        self.creditsA = Button(
+        # Mandatory Parameters
+        self.display,  # Surface to place button on
+        (w/2) - (300/2),  # X-coordinate of top left corner
+        (h/6),  # Y-coordinate of top left corner
+        300,  # Width
+        100,  # Height
+        # Optional Parameters
+        text='Andrew Widner',  # Text to display
+        textColour='blue',
+        font=self.buttonFont,
+        fontSize=50,  # Size of font
+        margin=20,  # Minimum distance between text/image and edge of button
+        inactiveColour=(255, 255, 255),
+        hoverColour=(255, 255, 255),
+        pressedColour=(255, 255, 255)
+        )
+        self.attribA = Button(
+        # Mandatory Parameters
+        self.display,  # Surface to place button on
+        (w/2) - (300/2),  # X-coordinate of top left corner
+        (h/6 + 75),  # Y-coordinate of top left corner
+        300,  # Width
+        100,  # Height
+        # Optional Parameters
+        text='openCV integration, image upscaling, image contrast and B&W',  # Text to display
+        textColour='blue',
+        font=self.buttonFontSmall,
+        fontSize=50,  # Size of font
+        margin=20,  # Minimum distance between text/image and edge of button
+        inactiveColour=(255, 255, 255),
+        hoverColour=(255, 255, 255),
+        pressedColour=(255, 255, 255)
+        )
+        self.creditsA.hide()
+        self.attribA.hide()
+        
+
+        self.creditsJ = Button(
+        # Mandatory Parameters
+        self.display,  # Surface to place button on
+        (w/2) - (300/2),  # X-coordinate of top left corner
+        (h/3),  # Y-coordinate of top left corner
+        300,  # Width
+        100,  # Height
+        # Optional Parameters
+        text='Jeb Davis',  # Text to display
+        textColour=(0,102,0),
+        font=self.buttonFont,
+        fontSize=50,  # Size of font
+        margin=20,  # Minimum distance between text/image and edge of button
+        inactiveColour=(255, 255, 255),
+        hoverColour=(255, 255, 255),
+        pressedColour=(255, 255, 255)
+        )
+        self.attribJ = Button(
+        # Mandatory Parameters
+        self.display,  # Surface to place button on
+        (w/2) - (300/2),  # X-coordinate of top left corner
+        (h/3 + 75),  # Y-coordinate of top left corner
+        300,  # Width
+        100,  # Height
+        # Optional Parameters
+        text='Pillow coloring methods, coloring scene layout, custom page upload, overall backend file structure',  # Text to display
+        textColour=(0,102,0),
+        font=self.buttonFontSmall,
+        fontSize=50,  # Size of font
+        margin=20,  # Minimum distance between text/image and edge of button
+        inactiveColour=(255, 255, 255),
+        hoverColour=(255, 255, 255),
+        pressedColour=(255, 255, 255)
+        )
+        self.creditsJ.hide()
+        self.attribJ.hide()
+
+        self.creditsR = Button(
+        # Mandatory Parameters
+        self.display,  # Surface to place button on
+        (w/2) - (300/2),  # X-coordinate of top left corner
+        (h/2),  # Y-coordinate of top left corner
+        300,  # Width
+        100,  # Height
+        # Optional Parameters
+        text='Reilley Locke',  # Text to display
+        textColour=(138,43,226),
+        font=self.buttonFont,
+        fontSize=50,  # Size of font
+        margin=20,  # Minimum distance between text/image and edge of button
+        inactiveColour=(255, 255, 255),
+        hoverColour=(255, 255, 255),
+        pressedColour=(255, 255, 255)
+        )
+        self.attribR = Button(
+        # Mandatory Parameters
+        self.display,  # Surface to place button on
+        (w/2) - (300/2),  # X-coordinate of top left corner
+        (h/2 + 75),  # Y-coordinate of top left corner
+        300,  # Width
+        100,  # Height
+        # Optional Parameters
+        text='UI design, base pick page functionality, scene implementation',  # Text to display
+        textColour=(138,43,226),
+        font=self.buttonFontSmall,
+        fontSize=25,  # Size of font
+        margin=20,  # Minimum distance between text/image and edge of button
+        inactiveColour=(255, 255, 255),
+        hoverColour=(255, 255, 255),
+        pressedColour=(255, 255, 255)
+        )
+        self.creditsR.hide()
+        self.attribR.hide()
+
     def hideButtonBack(self):
         self.gameStateManager.set_state('start')
         self.backBTN.hide()
+        self.creditsA.hide()
+        self.attribA.hide()
+        self.creditsJ.hide()
+        self.attribJ.hide()
+        self.creditsR.hide()
+        self.attribR.hide()
                     
     def run(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
         self.backBTN.show()
+        self.creditsA.show()
+        self.attribA.show()
+        self.creditsJ.show()
+        self.attribJ.show()
+        self.creditsR.show()
+        self.attribR.show()
         self.display.blit(self.background, (0, 0))
         self.credits.render(self.display, ((w/2) - (self.credits.get_width()/2), 50))
 
