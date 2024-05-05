@@ -128,7 +128,8 @@ class PickPage:
 
     def pickCustomPage(self):
         source_file = easygui.fileopenbox(default = "Custom_Pages/*.*")
-        self.loadPage(source_file)
+        if source_file == True:
+            self.loadPage(source_file)
         
     def run(self):
         for event in pygame.event.get():
